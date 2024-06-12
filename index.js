@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const pool = require("./utils/db");
-const {getAllTodos, createTodo, getTodo} = require('./controllers/todo.controller');
+const {getAllTodos, createTodo, getTodo, updateTodo, deleteTodo} = require('./controllers/todo.controller');
 const app = express();
 
 
@@ -22,8 +22,10 @@ app.get("/todos", getAllTodos)
 app.get("/todos/:id", getTodo);
 
 // UPDATE A TODO
+app.put("/todos/:id", updateTodo);
 
 // DELETE A TODO
+app.delete("/todos/:id", deleteTodo);
 
 
 app.listen(5000, () => {
