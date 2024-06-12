@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
-const pool = require("./db");
+const pool = require("./utils/db");
+const {getAllTodos, createTodo, getTodo} = require('./controllers/todo.controller');
 const app = express();
 
 
@@ -9,29 +10,20 @@ app.use(cors());
 app.use(express.json());
 
 
-// || ROUTES ||
+// -----ROUTES-----
 
-//---------- CRETE A TODO -----------
-app.post("/todos", async (req, res) => {
-    try {
-        const { description } = req.body;
+// CRETE A TODO
+app.post("/todos", createTodo);
 
-        const newTodo = await pool.query("INSERT INTO todo (description) values($1) RETURNING * ", [description]);
+// GET All TODOs
+app.get("/todos", getAllTodos)
 
-        res.json(newTodo.rows[0]);
+// GET A TODO
+app.get("/todos/:id", getTodo);
 
-    } catch (error) {
-        console.log(error.message);
-    }
-});
+// UPDATE A TODO
 
-//---------- GET All TODOs -----------
-
-//---------- GET A TODO -----------
-
-//---------- UPDATE A TODO -----------
-
-//---------- DELETE A TODO -----------
+// DELETE A TODO
 
 
 app.listen(5000, () => {
